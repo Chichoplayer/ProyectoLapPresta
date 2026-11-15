@@ -25,12 +25,20 @@ public class Aplicacion extends javax.swing.JFrame {
 
     }
     
-     private void actualizarContadores() {
-        int total = EquipoCSV.contarTotal();
+          private void actualizarContadores() {
+        // --- Equipos ---
+        int totalEquipos = EquipoCSV.contarTotal();
         int disponibles = EquipoCSV.contarDisponibles();
-        LblTotalEquipos.setText(String.valueOf(total));
+        LblTotalEquipos.setText(String.valueOf(totalEquipos));
         LblEquiposDisponibles.setText(String.valueOf(disponibles));
-    }
+
+        // --- Usuarios ---
+        int totalUsuarios = UsuarioCSV.contarTotal();
+        int docentes = UsuarioCSV.contarDocentes();
+        int estudiantes = UsuarioCSV.contarEstudiantes();
+        LblNumUsuarios.setText(totalUsuarios + "  (" + docentes + " Docentes - "
+                + estudiantes + " Estudiantes)");
+     }
     
 
     /**
@@ -45,21 +53,23 @@ public class Aplicacion extends javax.swing.JFrame {
         Panel1 = new javax.swing.JPanel();
         PanelColor = new javax.swing.JPanel();
         LabPresta = new javax.swing.JLabel();
-        BtnRegistrarEquipo = new javax.swing.JButton();
-        BtnRegistrarEquipo1 = new javax.swing.JButton();
         BtnSalir = new javax.swing.JButton();
         PanelDatos1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         LblTotalEquipos = new javax.swing.JTextField();
+        BtnRegistrarEquipo = new javax.swing.JButton();
         PanelDatos2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         LblEquiposDisponibles = new javax.swing.JTextField();
+        BtnRealizarPrestamo = new javax.swing.JButton();
         PanelDatos3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         LblPrestamosAct = new javax.swing.JTextField();
         PanelDatos4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         LblNumUsuarios = new javax.swing.JTextField();
+        BtnRegistrarUsuario = new javax.swing.JButton();
+        BtnBuscarUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,17 +79,6 @@ public class Aplicacion extends javax.swing.JFrame {
         LabPresta.setForeground(new java.awt.Color(255, 255, 255));
         LabPresta.setText("LabPresta");
         LabPresta.setToolTipText("");
-
-        BtnRegistrarEquipo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BtnRegistrarEquipo.setForeground(new java.awt.Color(50, 139, 97));
-        BtnRegistrarEquipo.setText("REGISTRAR EQUIPO");
-        BtnRegistrarEquipo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        BtnRegistrarEquipo.addActionListener(this::BtnRegistrarEquipoActionPerformed);
-
-        BtnRegistrarEquipo1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BtnRegistrarEquipo1.setForeground(new java.awt.Color(50, 139, 97));
-        BtnRegistrarEquipo1.setText("HACER PRESTAMO");
-        BtnRegistrarEquipo1.addActionListener(this::BtnRegistrarEquipo1ActionPerformed);
 
         BtnSalir.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         BtnSalir.setForeground(new java.awt.Color(50, 139, 97));
@@ -94,16 +93,12 @@ public class Aplicacion extends javax.swing.JFrame {
         PanelColor.setLayout(PanelColorLayout);
         PanelColorLayout.setHorizontalGroup(
             PanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelColorLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelColorLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(BtnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(LabPresta, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
-                .addGroup(PanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BtnRegistrarEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BtnRegistrarEquipo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap(435, Short.MAX_VALUE))
         );
         PanelColorLayout.setVerticalGroup(
             PanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,16 +106,11 @@ public class Aplicacion extends javax.swing.JFrame {
                 .addGroup(PanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelColorLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addGroup(PanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelColorLayout.createSequentialGroup()
-                                .addComponent(BtnRegistrarEquipo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(BtnRegistrarEquipo1))
-                            .addComponent(LabPresta)))
+                        .addComponent(LabPresta))
                     .addGroup(PanelColorLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(BtnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         PanelDatos1.setBackground(new java.awt.Color(252, 252, 252));
@@ -134,6 +124,12 @@ public class Aplicacion extends javax.swing.JFrame {
         LblTotalEquipos.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         LblTotalEquipos.setText("0");
 
+        BtnRegistrarEquipo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnRegistrarEquipo.setForeground(new java.awt.Color(50, 139, 97));
+        BtnRegistrarEquipo.setText("REGISTRAR EQUIPO");
+        BtnRegistrarEquipo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        BtnRegistrarEquipo.addActionListener(this::BtnRegistrarEquipoActionPerformed);
+
         javax.swing.GroupLayout PanelDatos1Layout = new javax.swing.GroupLayout(PanelDatos1);
         PanelDatos1.setLayout(PanelDatos1Layout);
         PanelDatos1Layout.setHorizontalGroup(
@@ -141,16 +137,26 @@ public class Aplicacion extends javax.swing.JFrame {
             .addGroup(PanelDatos1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelDatos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LblTotalEquipos, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelDatos1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(PanelDatos1Layout.createSequentialGroup()
+                        .addComponent(LblTotalEquipos, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnRegistrarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         PanelDatos1Layout.setVerticalGroup(
             PanelDatos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelDatos1Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LblTotalEquipos, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDatos1Layout.createSequentialGroup()
+                .addGroup(PanelDatos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PanelDatos1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(BtnRegistrarEquipo))
+                    .addGroup(PanelDatos1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(LblTotalEquipos, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -165,6 +171,11 @@ public class Aplicacion extends javax.swing.JFrame {
         LblEquiposDisponibles.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         LblEquiposDisponibles.setText("0");
 
+        BtnRealizarPrestamo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnRealizarPrestamo.setForeground(new java.awt.Color(50, 139, 97));
+        BtnRealizarPrestamo.setText("HACER PRESTAMO");
+        BtnRealizarPrestamo.addActionListener(this::BtnRealizarPrestamoActionPerformed);
+
         javax.swing.GroupLayout PanelDatos2Layout = new javax.swing.GroupLayout(PanelDatos2);
         PanelDatos2.setLayout(PanelDatos2Layout);
         PanelDatos2Layout.setHorizontalGroup(
@@ -172,9 +183,14 @@ public class Aplicacion extends javax.swing.JFrame {
             .addGroup(PanelDatos2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelDatos2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(LblEquiposDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelDatos2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(PanelDatos2Layout.createSequentialGroup()
+                        .addComponent(LblEquiposDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnRealizarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         PanelDatos2Layout.setVerticalGroup(
             PanelDatos2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,7 +198,11 @@ public class Aplicacion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LblEquiposDisponibles, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                .addGroup(PanelDatos2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LblEquiposDisponibles, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                    .addGroup(PanelDatos2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(BtnRealizarPrestamo)))
                 .addContainerGap())
         );
 
@@ -204,9 +224,12 @@ public class Aplicacion extends javax.swing.JFrame {
             .addGroup(PanelDatos3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelDatos3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(LblPrestamosAct, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelDatos3Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelDatos3Layout.createSequentialGroup()
+                        .addComponent(LblPrestamosAct, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         PanelDatos3Layout.setVerticalGroup(
             PanelDatos3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,6 +252,18 @@ public class Aplicacion extends javax.swing.JFrame {
         LblNumUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         LblNumUsuarios.setText("0");
 
+        BtnRegistrarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnRegistrarUsuario.setForeground(new java.awt.Color(50, 139, 97));
+        BtnRegistrarUsuario.setText("REGISTRAR USUARIO");
+        BtnRegistrarUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        BtnRegistrarUsuario.addActionListener(this::BtnRegistrarUsuarioActionPerformed);
+
+        BtnBuscarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnBuscarUsuario.setForeground(new java.awt.Color(50, 139, 97));
+        BtnBuscarUsuario.setText("BUSCAR USUARIO");
+        BtnBuscarUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        BtnBuscarUsuario.addActionListener(this::BtnBuscarUsuarioActionPerformed);
+
         javax.swing.GroupLayout PanelDatos4Layout = new javax.swing.GroupLayout(PanelDatos4);
         PanelDatos4.setLayout(PanelDatos4Layout);
         PanelDatos4Layout.setHorizontalGroup(
@@ -237,19 +272,29 @@ public class Aplicacion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PanelDatos4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelDatos4Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(LblNumUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(LblNumUsuarios))
+                .addGap(18, 18, 18)
+                .addGroup(PanelDatos4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(BtnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                    .addComponent(BtnBuscarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         PanelDatos4Layout.setVerticalGroup(
             PanelDatos4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelDatos4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(LblNumUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(PanelDatos4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PanelDatos4Layout.createSequentialGroup()
+                        .addComponent(BtnBuscarUsuario)
+                        .addGap(18, 18, 18)
+                        .addComponent(BtnRegistrarUsuario))
+                    .addGroup(PanelDatos4Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(LblNumUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout Panel1Layout = new javax.swing.GroupLayout(Panel1);
@@ -301,13 +346,23 @@ public class Aplicacion extends javax.swing.JFrame {
     this.dispose();
     }//GEN-LAST:event_BtnRegistrarEquipoActionPerformed
 
-    private void BtnRegistrarEquipo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarEquipo1ActionPerformed
+    private void BtnRealizarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRealizarPrestamoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BtnRegistrarEquipo1ActionPerformed
+    }//GEN-LAST:event_BtnRealizarPrestamoActionPerformed
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_BtnSalirActionPerformed
+
+    private void BtnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarUsuarioActionPerformed
+        RegistrarUsuario ventana3 = new RegistrarUsuario();
+    ventana3.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_BtnRegistrarUsuarioActionPerformed
+
+    private void BtnBuscarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnBuscarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,8 +374,10 @@ public class Aplicacion extends javax.swing.JFrame {
 } 
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnBuscarUsuario;
+    private javax.swing.JButton BtnRealizarPrestamo;
     private javax.swing.JButton BtnRegistrarEquipo;
-    private javax.swing.JButton BtnRegistrarEquipo1;
+    private javax.swing.JButton BtnRegistrarUsuario;
     private javax.swing.JButton BtnSalir;
     private javax.swing.JLabel LabPresta;
     private javax.swing.JTextField LblEquiposDisponibles;

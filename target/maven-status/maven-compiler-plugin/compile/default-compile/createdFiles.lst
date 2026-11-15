@@ -1,4 +1,7 @@
-com\mycompany\lappresta\Aplicacion.class
-com\mycompany\lappresta\RegistrarEquipo.class
 com\mycompany\lappresta\Equipo.class
 com\mycompany\lappresta\EquipoCSV.class
+com\mycompany\lappresta\Usuario.class
+com\mycompany\lappresta\Aplicacion.class
+com\mycompany\lappresta\RegistrarEquipo.class
+com\mycompany\lappresta\RegistrarUsuario.class
+com\mycompany\lappresta\UsuarioCSV.class

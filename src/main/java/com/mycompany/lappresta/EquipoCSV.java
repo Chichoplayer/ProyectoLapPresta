@@ -123,4 +123,25 @@ public class EquipoCSV {
         }
         return s;
     }
+    
+    //Sobrescribe todo el archivo CSV con la lista modificada de equipos
+    public static boolean actualizarLista(List<Equipo> lista) {
+        asegurarArchivo();
+        try (BufferedWriter bw = new BufferedWriter(
+                new FileWriter(ARCHIVO, StandardCharsets.UTF_8, false))) { // false para sobrescribir
+            bw.write(CABECERA);
+            bw.newLine();
+            for (Equipo eq : lista) {
+                bw.write(escapar(eq.getCodigo()) + "," +
+                         escapar(eq.getTipo()) + "," +
+                         escapar(eq.getDescripcion()) + "," +
+                         escapar(eq.getEstado()));
+                bw.newLine();
+            }
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error actualizando equipos: " + e.getMessage());
+            return false;
+        }
+    }
 }

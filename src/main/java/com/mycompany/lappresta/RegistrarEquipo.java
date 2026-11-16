@@ -194,7 +194,7 @@ public class RegistrarEquipo extends javax.swing.JFrame {
 
     private void BtnRegistrarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarEquipoActionPerformed
                                      
-        String codigo = LblCodigo.getText().trim();
+        String codigo = LblCodigo.getText().trim().toUpperCase();
         String tipo = (String) BoxTipo.getSelectedItem();
         String descripcion = LblDescripcion.getText().trim();
 
@@ -213,6 +213,15 @@ public class RegistrarEquipo extends javax.swing.JFrame {
             BoxTipo.requestFocus();
             return;
         }
+        
+        if (descripcion.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Debes ingresar una descripción para el equipo.",
+                    "Campo vacío", javax.swing.JOptionPane.WARNING_MESSAGE);
+            LblDescripcion.requestFocus();
+            return;
+        }
+  
         if (EquipoCSV.existeCodigo(codigo)) {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "Ya existe un equipo con el código \"" + codigo + "\".\nIngresa un código distinto.",

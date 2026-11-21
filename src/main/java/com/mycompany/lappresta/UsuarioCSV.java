@@ -121,4 +121,24 @@ public class UsuarioCSV {
         }
         return s;
     }
+    /** Busca usuarios cuya cédula o nombre coincida parcialmente con el texto ingresado. */
+    public static List<Usuario> buscarUsuarios(String criterio) {
+        List<Usuario> todos = listarUsuarios();
+        if (criterio == null || criterio.trim().isEmpty()) {
+            return todos;
+        }
+
+        String texto = criterio.trim().toLowerCase();
+        List<Usuario> filtrados = new ArrayList<>();
+
+        for (Usuario u : todos) {
+            boolean coincideCedula = u.getCedula() != null && u.getCedula().toLowerCase().contains(texto);
+            boolean coincideNombre = u.getNombre() != null && u.getNombre().toLowerCase().contains(texto);
+
+            if (coincideCedula || coincideNombre) {
+                filtrados.add(u);
+            }
+        }
+        return filtrados;
+    }
 }

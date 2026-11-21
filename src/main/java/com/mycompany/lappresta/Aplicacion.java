@@ -38,6 +38,14 @@ public class Aplicacion extends javax.swing.JFrame {
         int estudiantes = UsuarioCSV.contarEstudiantes();
         LblNumUsuarios.setText(totalUsuarios + "  (" + docentes + " Docentes - "
                 + estudiantes + " Estudiantes)");
+        // --- Préstamos Activos ---
+        int activos = 0;
+        for (Prestamo p : PrestamoCSV.listarPrestamos()) {
+            if (p.getFechaDevolucion() == null || p.getFechaDevolucion().trim().isEmpty()) {
+                activos++;
+            }
+        }
+        LblPrestamosAct.setText(String.valueOf(activos));
      }
     
 
@@ -216,6 +224,7 @@ public class Aplicacion extends javax.swing.JFrame {
         LblPrestamosAct.setEditable(false);
         LblPrestamosAct.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         LblPrestamosAct.setText("0");
+        LblPrestamosAct.addActionListener(this::LblPrestamosActActionPerformed);
 
         javax.swing.GroupLayout PanelDatos3Layout = new javax.swing.GroupLayout(PanelDatos3);
         PanelDatos3.setLayout(PanelDatos3Layout);
@@ -224,12 +233,9 @@ public class Aplicacion extends javax.swing.JFrame {
             .addGroup(PanelDatos3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelDatos3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelDatos3Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(PanelDatos3Layout.createSequentialGroup()
-                        .addComponent(LblPrestamosAct, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jLabel4)
+                    .addComponent(LblPrestamosAct, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelDatos3Layout.setVerticalGroup(
             PanelDatos3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,6 +372,10 @@ this.dispose();
     private void BtnBuscarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnBuscarUsuarioActionPerformed
+
+    private void LblPrestamosActActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LblPrestamosActActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LblPrestamosActActionPerformed
 
     /**
      * @param args the command line arguments

@@ -85,6 +85,7 @@ private void cargarCombos() {
         BtnRegistrarPrestamo = new java.awt.Button();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPrestamos = new javax.swing.JTable();
+        BtnRegistrarDevolucion = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,6 +163,14 @@ private void cargarCombos() {
             tblPrestamos.getColumnModel().getColumn(4).setResizable(false);
         }
 
+        BtnRegistrarDevolucion.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        BtnRegistrarDevolucion.setLabel("Registrar Devolución");
+        BtnRegistrarDevolucion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnRegistrarDevolucionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -176,22 +185,27 @@ private void cargarCombos() {
                         .addComponent(Retroceder, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(54, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BtnRegistrarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(CmbUsuario, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
+                                .addComponent(BtnRegistrarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BtnRegistrarDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)))
-                            .addComponent(CmbEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFechaPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFechaLimite, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(40, 40, 40))))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(CmbUsuario, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel5)))
+                                    .addComponent(CmbEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFechaPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFechaLimite, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(31, 31, 31)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addGap(34, 34, 34))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,10 +213,6 @@ private void cargarCombos() {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(Retroceder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -220,8 +230,15 @@ private void cargarCombos() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtFechaLimite, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                        .addComponent(BtnRegistrarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18))
+                        .addComponent(BtnRegistrarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(Retroceder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnRegistrarDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         BtnRegistrarPrestamo.getAccessibleContext().setAccessibleName("Generar Préstamo");
@@ -320,6 +337,63 @@ private void cargarCombos() {
         this.dispose();
     }//GEN-LAST:event_RetrocederActionPerformed
 
+    private void BtnRegistrarDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarDevolucionActionPerformed
+        // TODO add your handling code here:
+        // 1. Verificar que el usuario haya seleccionado una fila de la tabla
+        int fila = tblPrestamos.getSelectedRow();
+        if (fila == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Selecciona un préstamo activo de la tabla para devolver.", "Aviso",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String idPrestamo = tblPrestamos.getValueAt(fila, 0).toString();
+        String codigoEquipo = tblPrestamos.getValueAt(fila, 2).toString();
+        String estadoActual = tblPrestamos.getValueAt(fila, 4).toString();
+
+        // 2. Validar que el préstamo siga activo
+        if (!estadoActual.equalsIgnoreCase("Activo")) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Este préstamo ya fue devuelto anteriormente.", "Aviso",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // 3. Obtener la fecha actual (dd/MM/yyyy)
+        java.time.LocalDate hoy = java.time.LocalDate.now();
+        java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String fechaDevolucion = hoy.format(fmt);
+
+        // 4. Actualizar fechaDevolucion en prestamos.csv
+        java.util.List<Prestamo> listaPrestamos = PrestamoCSV.listarPrestamos();
+        for (Prestamo p : listaPrestamos) {
+            if (p.getId().equalsIgnoreCase(idPrestamo)) {
+                p.setFechaDevolucion(fechaDevolucion);
+                break;
+            }
+        }
+        PrestamoCSV.actualizarLista(listaPrestamos);
+
+        // 5. Regresar el estado del equipo a "Disponible" en equipos.csv
+        java.util.List<Equipo> listaEquipos = EquipoCSV.listarEquipos();
+        for (Equipo eq : listaEquipos) {
+            if (eq.getCodigo().equalsIgnoreCase(codigoEquipo)) {
+                eq.setEstado("Disponible");
+                break;
+            }
+        }
+        EquipoCSV.actualizarLista(listaEquipos);
+
+        javax.swing.JOptionPane.showMessageDialog(this,
+                "Devolución registrada con fecha " + fechaDevolucion + ". Equipo " + codigoEquipo + " disponible nuevamente.",
+                "Devolución Exitosa", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+        // 6. Refrescar el combo de equipos disponibles y la tabla
+        cargarCombos();
+        actualizarTablaPrestamos();
+    }//GEN-LAST:event_BtnRegistrarDevolucionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -346,6 +420,7 @@ private void cargarCombos() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.awt.Button BtnRegistrarDevolucion;
     private java.awt.Button BtnRegistrarPrestamo;
     private javax.swing.JComboBox<String> CmbEquipo;
     private javax.swing.JComboBox<String> CmbUsuario;

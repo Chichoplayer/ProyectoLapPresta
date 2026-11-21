@@ -348,6 +348,9 @@ public class Aplicacion extends javax.swing.JFrame {
 
     private void BtnRealizarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRealizarPrestamoActionPerformed
         // TODO add your handling code here:
+        GestionPrestamos ventanaPrestamos = new GestionPrestamos();
+ventanaPrestamos.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_BtnRealizarPrestamoActionPerformed
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed

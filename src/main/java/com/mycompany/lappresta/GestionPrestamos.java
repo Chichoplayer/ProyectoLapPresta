@@ -1,15 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.lappresta;
 
-/**
- *
- * @author HOLA
- */
 public class GestionPrestamos extends javax.swing.JFrame {
-    
+    private static final java.time.format.DateTimeFormatter FMT =
+            java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionPrestamos.class.getName());
 
     /**
@@ -18,24 +11,28 @@ public class GestionPrestamos extends javax.swing.JFrame {
     public GestionPrestamos() {
         initComponents();
         
-        
-        // Poner la fecha actual por defecto (ej. 21/11/2026)
-        java.time.LocalDate hoy = java.time.LocalDate.now();
-        java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        txtFechaPrestamo.setText(hoy.format(fmt));
-        
+        txtFechaLimite.setEditable(false);
+        txtFechaPrestamo.setText(java.time.LocalDate.now().format(FMT));
+
+        CmbUsuario.addActionListener(e -> calcularFechaLimiteVista());
+        txtFechaPrestamo.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                calcularFechaLimiteVista();
+            }
+        });
+
         cargarCombos();
         actualizarTablaPrestamos();
-    
+        calcularFechaLimiteVista();
     }
-private void cargarCombos() {
-        // 1. Cargar Usuarios Registrados
+    
+    private void cargarCombos() {
         CmbUsuario.removeAllItems();
         for (Usuario u : UsuarioCSV.listarUsuarios()) {
-            CmbUsuario.addItem(u.getCedula() + " - " + u.getNombre());
+            CmbUsuario.addItem(u.getCedula() + " - " + u.getNombre() + " (" + u.getTipo() + ")");
         }
 
-        // 2. Cargar solo Equipos Disponibles
         CmbEquipo.removeAllItems();
         for (Equipo eq : EquipoCSV.listarEquipos()) {
             if ("Disponible".equalsIgnoreCase(eq.getEstado())) {
@@ -46,12 +43,34 @@ private void cargarCombos() {
 
     private void actualizarTablaPrestamos() {
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tblPrestamos.getModel();
-        modelo.setRowCount(0); // Limpiar filas
+        modelo.setRowCount(0);
 
+        java.time.LocalDate hoy = java.time.LocalDate.now();
         for (Prestamo p : PrestamoCSV.listarPrestamos()) {
-            String estado = (p.getFechaDevolucion() == null || p.getFechaDevolucion().trim().isEmpty())
-                    ? "Activo"
-                    : "Devuelto (" + p.getFechaDevolucion() + ")";
+            String dev = p.getFechaDevolucion() == null ? "" : p.getFechaDevolucion().trim();
+            String estado;
+
+            if (dev.isEmpty()) {
+                estado = "Activo";
+                try {
+                    java.time.LocalDate limite = java.time.LocalDate.parse(p.getFechaLimite().trim(), FMT);
+                    if (hoy.isAfter(limite)) {
+                        estado = "Vencido"; // No devuelto y pasó la fecha límite[cite: 1]
+                    }
+                } catch (java.time.format.DateTimeParseException ignored) {
+                }
+            } else {
+                estado = "Devuelto (" + dev + ")";
+                try {
+                    java.time.LocalDate limite = java.time.LocalDate.parse(p.getFechaLimite().trim(), FMT);
+                    java.time.LocalDate fDev = java.time.LocalDate.parse(dev, FMT);
+                    if (fDev.isAfter(limite)) {
+                        estado = "Devuelto con atraso (" + dev + ")"; // Devuelto después del límite[cite: 1]
+                    }
+                } catch (java.time.format.DateTimeParseException ignored) {
+                }
+            }
+
             modelo.addRow(new Object[]{
                 p.getId(),
                 p.getCedulaUsuario(),
@@ -61,6 +80,43 @@ private void cargarCombos() {
             });
         }
     }
+    
+    private Usuario obtenerUsuarioActual() {
+        if (CmbUsuario.getSelectedItem() == null) {
+            return null;
+        }
+        String cedula = CmbUsuario.getSelectedItem().toString().split(" - ")[0].trim();
+        for (Usuario u : UsuarioCSV.listarUsuarios()) {
+            if (u.getCedula().equalsIgnoreCase(cedula)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    private int diasPorTipoUsuario(Usuario u) {
+        if (u != null && "Docente".equalsIgnoreCase(u.getTipo().trim())) {
+            return 3; // 3 días para docentes
+        }
+        return 1; // 1 día para estudiantes[cite: 1]
+    }
+
+    private void calcularFechaLimiteVista() {
+        Usuario u = obtenerUsuarioActual();
+        String textoFecha = txtFechaPrestamo.getText().trim();
+        if (u == null || textoFecha.isEmpty()) {
+            txtFechaLimite.setText("");
+            return;
+        }
+        try {
+            java.time.LocalDate fPrestamo = java.time.LocalDate.parse(textoFecha, FMT);
+            java.time.LocalDate fLimite = fPrestamo.plusDays(diasPorTipoUsuario(u));
+            txtFechaLimite.setText(fLimite.format(FMT));
+        } catch (java.time.format.DateTimeParseException ex) {
+            txtFechaLimite.setText("");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -265,9 +321,8 @@ private void cargarCombos() {
     }//GEN-LAST:event_txtFechaPrestamoActionPerformed
 
     private void BtnRegistrarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarPrestamoActionPerformed
-        // TODO add your handling code here:
-        // Validar que haya usuario y equipo seleccionados
-        if (CmbUsuario.getSelectedItem() == null) {
+        Usuario usuarioSel = obtenerUsuarioActual();
+        if (usuarioSel == null) {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "No hay usuarios registrados seleccionados.", "Aviso",
                     javax.swing.JOptionPane.WARNING_MESSAGE);
@@ -280,33 +335,60 @@ private void cargarCombos() {
             return;
         }
 
-        String fechaPrestamo = txtFechaPrestamo.getText().trim();
-        String fechaLimite = txtFechaLimite.getText().trim(); // Si dejaste el nombre anterior, usa txtObservaciones
-
-        if (fechaPrestamo.isEmpty() || fechaLimite.isEmpty()) {
+        String textoFecha = txtFechaPrestamo.getText().trim();
+        if (textoFecha.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this,
-                    "Debes ingresar la fecha de préstamo y la fecha límite.", "Campos vacíos",
+                    "Debes ingresar la fecha de préstamo (dd/MM/yyyy).", "Campo vacío",
                     javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Extraer cédula y código de equipo del texto seleccionado ("1753... - Nombre" -> "1753...")
-        String selUsuario = CmbUsuario.getSelectedItem().toString();
-        String cedulaUsuario = selUsuario.split(" - ")[0].trim();
+        java.time.LocalDate fechaPrestamo;
+        try {
+            fechaPrestamo = java.time.LocalDate.parse(textoFecha, FMT);
+        } catch (java.time.format.DateTimeParseException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Escribe una fecha válida con formato dd/MM/yyyy (ej. 22/11/2026).",
+                    "Fecha inválida", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        String selEquipo = CmbEquipo.getSelectedItem().toString();
-        String codigoEquipo = selEquipo.split(" - ")[0].trim();
+        String codigoEquipo = CmbEquipo.getSelectedItem().toString().split(" - ")[0].trim();
 
-        // Generar ID automático (PR-001, PR-002, etc.)
+        // Verificar que el equipo siga Disponible
+        Equipo equipoElegido = null;
+        for (Equipo eq : EquipoCSV.listarEquipos()) {
+            if (eq.getCodigo().equalsIgnoreCase(codigoEquipo)) {
+                equipoElegido = eq;
+                break;
+            }
+        }
+        if (equipoElegido == null || !"Disponible".equalsIgnoreCase(equipoElegido.getEstado())) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Solo se pueden prestar equipos en estado Disponible.",
+                    "Aviso", javax.swing.JOptionPane.WARNING_MESSAGE);
+            cargarCombos();
+            return;
+        }
+
+        // Calcular fecha límite automáticamente (+1 estudiante, +3 docente)[cite: 1]
+        java.time.LocalDate fechaLimite = fechaPrestamo.plusDays(diasPorTipoUsuario(usuarioSel));
+        String fechaLimiteStr = fechaLimite.format(FMT);
+        txtFechaLimite.setText(fechaLimiteStr);
+
         int siguienteNum = PrestamoCSV.listarPrestamos().size() + 1;
         String idPrestamo = String.format("PR-%03d", siguienteNum);
 
-        // Guardar préstamo (fechaDevolucion inicia vacía "")
-        Prestamo nuevo = new Prestamo(idPrestamo, codigoEquipo, cedulaUsuario, fechaPrestamo, fechaLimite, "");
-        boolean ok = PrestamoCSV.guardarPrestamo(nuevo);
+        Prestamo nuevo = new Prestamo(
+                idPrestamo,
+                codigoEquipo,
+                usuarioSel.getCedula(),
+                fechaPrestamo.format(FMT),
+                fechaLimiteStr,
+                ""
+        );
 
-        if (ok) {
-            // Cambiar el estado del equipo a "Prestado" en equipos.csv
+        if (PrestamoCSV.guardarPrestamo(nuevo)) {
             java.util.List<Equipo> equipos = EquipoCSV.listarEquipos();
             for (Equipo eq : equipos) {
                 if (eq.getCodigo().equalsIgnoreCase(codigoEquipo)) {
@@ -317,12 +399,12 @@ private void cargarCombos() {
             EquipoCSV.actualizarLista(equipos);
 
             javax.swing.JOptionPane.showMessageDialog(this,
-                    "Préstamo " + idPrestamo + " registrado correctamente.", "Éxito",
-                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    "Préstamo " + idPrestamo + " registrado. Fecha límite: " + fechaLimiteStr,
+                    "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
-            txtFechaLimite.setText("");
-            cargarCombos();              // Quita el equipo recién prestado del combo
-            actualizarTablaPrestamos();  // Muestra el nuevo préstamo en la tabla
+            cargarCombos();
+            actualizarTablaPrestamos();
+            calcularFechaLimiteVista();
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "No se pudo guardar el préstamo.", "Error",
@@ -353,7 +435,7 @@ private void cargarCombos() {
         String estadoActual = tblPrestamos.getValueAt(fila, 4).toString();
 
         // 2. Validar que el préstamo siga activo
-        if (!estadoActual.equalsIgnoreCase("Activo")) {
+        if (!"Activo".equalsIgnoreCase(estadoActual) && !"Vencido".equalsIgnoreCase(estadoActual)) {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "Este préstamo ya fue devuelto anteriormente.", "Aviso",
                     javax.swing.JOptionPane.INFORMATION_MESSAGE);
@@ -392,6 +474,7 @@ private void cargarCombos() {
         // 6. Refrescar el combo de equipos disponibles y la tabla
         cargarCombos();
         actualizarTablaPrestamos();
+        calcularFechaLimiteVista();
     }//GEN-LAST:event_BtnRegistrarDevolucionActionPerformed
 
     /**

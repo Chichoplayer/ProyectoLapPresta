@@ -73,11 +73,11 @@ public class Aplicacion extends javax.swing.JFrame {
         PanelDatos3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         LblPrestamosAct = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         PanelDatos4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         LblNumUsuarios = new javax.swing.JTextField();
         BtnRegistrarUsuario = new javax.swing.JButton();
-        BtnBuscarUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -226,6 +226,11 @@ public class Aplicacion extends javax.swing.JFrame {
         LblPrestamosAct.setText("0");
         LblPrestamosAct.addActionListener(this::LblPrestamosActActionPerformed);
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 153, 51));
+        jButton1.setText("GESTIÓN DE INVENTARIO");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
         javax.swing.GroupLayout PanelDatos3Layout = new javax.swing.GroupLayout(PanelDatos3);
         PanelDatos3.setLayout(PanelDatos3Layout);
         PanelDatos3Layout.setHorizontalGroup(
@@ -233,9 +238,14 @@ public class Aplicacion extends javax.swing.JFrame {
             .addGroup(PanelDatos3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelDatos3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(LblPrestamosAct, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelDatos3Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(0, 505, Short.MAX_VALUE))
+                    .addGroup(PanelDatos3Layout.createSequentialGroup()
+                        .addComponent(LblPrestamosAct, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         PanelDatos3Layout.setVerticalGroup(
             PanelDatos3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,7 +253,9 @@ public class Aplicacion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LblPrestamosAct, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelDatos3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(LblPrestamosAct, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -264,12 +276,6 @@ public class Aplicacion extends javax.swing.JFrame {
         BtnRegistrarUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         BtnRegistrarUsuario.addActionListener(this::BtnRegistrarUsuarioActionPerformed);
 
-        BtnBuscarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BtnBuscarUsuario.setForeground(new java.awt.Color(50, 139, 97));
-        BtnBuscarUsuario.setText("BUSCAR USUARIO");
-        BtnBuscarUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        BtnBuscarUsuario.addActionListener(this::BtnBuscarUsuarioActionPerformed);
-
         javax.swing.GroupLayout PanelDatos4Layout = new javax.swing.GroupLayout(PanelDatos4);
         PanelDatos4.setLayout(PanelDatos4Layout);
         PanelDatos4Layout.setHorizontalGroup(
@@ -279,12 +285,10 @@ public class Aplicacion extends javax.swing.JFrame {
                 .addGroup(PanelDatos4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelDatos4Layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 241, Short.MAX_VALUE))
                     .addComponent(LblNumUsuarios))
                 .addGap(18, 18, 18)
-                .addGroup(PanelDatos4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BtnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                    .addComponent(BtnBuscarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(BtnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         PanelDatos4Layout.setVerticalGroup(
@@ -292,10 +296,7 @@ public class Aplicacion extends javax.swing.JFrame {
             .addGroup(PanelDatos4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelDatos4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(PanelDatos4Layout.createSequentialGroup()
-                        .addComponent(BtnBuscarUsuario)
-                        .addGap(18, 18, 18)
-                        .addComponent(BtnRegistrarUsuario))
+                    .addComponent(BtnRegistrarUsuario)
                     .addGroup(PanelDatos4Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -369,13 +370,15 @@ this.dispose();
     this.dispose();
     }//GEN-LAST:event_BtnRegistrarUsuarioActionPerformed
 
-    private void BtnBuscarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnBuscarUsuarioActionPerformed
-
     private void LblPrestamosActActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LblPrestamosActActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_LblPrestamosActActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        GestionInventario ventanaInventario = new GestionInventario();
+        ventanaInventario.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -387,7 +390,6 @@ this.dispose();
 } 
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnBuscarUsuario;
     private javax.swing.JButton BtnRealizarPrestamo;
     private javax.swing.JButton BtnRegistrarEquipo;
     private javax.swing.JButton BtnRegistrarUsuario;
@@ -403,6 +405,7 @@ this.dispose();
     private javax.swing.JPanel PanelDatos2;
     private javax.swing.JPanel PanelDatos3;
     private javax.swing.JPanel PanelDatos4;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
